@@ -134,6 +134,21 @@ Todas en `assets/`, mismo set de luz/mármol/fondo azul marino para que combinen
   `.mt-section h2`.
 - Push final limpio (sin errores) al tema de trabajo "TapReview (Claude)" — ID 153640992856.
 
+## Fotos añadidas a la galería del producto (Admin API, a petición del usuario)
+Además de las 8 fotos originales del proveedor, se subieron 9 fotos más a la galería
+oficial del producto (gid://shopify/Product/8922706772056) vía `stagedUploadsCreate` +
+`productCreateMedia`:
+- Las 7 generadas en la fase 3b: `mt-hero-banner.jpg`, `mt-paso-1/2/3.jpg`,
+  `mt-color-blanco.jpg`, `mt-color-negro.jpg`, `mt-cta-producto.jpg`.
+- 2 nuevas generadas a petición explícita del usuario:
+  - `mt-nfc-tools-setup.jpg` — mano con celular mostrando la app NFC Tools configurando
+    la etiqueta, con la placa cerca (fondo neutro, estilo tech/confianza).
+  - `mt-producto-limpio-blanco.jpg` — edición de `fotos-producto/producto-1.jpg`
+    eliminando todo el texto/overlay del catálogo ("x1", Front/Back), fondo blanco puro
+    #FFFFFF, iluminación de estudio, calidad catálogo.
+Total: 17 fotos en la galería del producto. Verificado leyendo el producto de nuevo
+(todas con status UPLOADED y URL de cdn.shopify.com ya servible).
+
 ## Pendiente / para el usuario
 - **Publicar en vivo**: el tema está en borrador, a la espera de que el usuario confirme el diseño desde
   la previsualización para publicarlo (`shopify theme publish`).
