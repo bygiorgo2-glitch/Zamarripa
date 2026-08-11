@@ -6,7 +6,12 @@
 - Tema base: Dawn (descargado 2026-08-11, vía git clone de Shopify/dawn)
 - Entorno: Node v22.22.2, Shopify CLI 4.6.1 — OK (contenedor remoto en la nube)
 - Cuenta conectada: bygiorgo2@gmail.com
-- Última publicación: (pendiente — tema en preview, esperando OK del usuario para publicar en vivo)
+- Última publicación: **PUBLICADO EN VIVO** — tema "TapReview (Claude)" (#153640992856)
+  es ahora el tema activo de https://pna0bd-j1.myshopify.com. Verificado con curl:
+  HTTP 200, secciones mt- presentes, sin muro de contraseña.
+  - A partir de ahora, cualquier `shopify theme push` a este tema necesita
+    `--allow-live` (avisar siempre al usuario de que los cambios serán visibles
+    al instante para cualquiera).
 - Tema de trabajo (no publicado): "TapReview (Claude)" — ID 153640992856
   - Previsualización: https://pna0bd-j1.myshopify.com?preview_theme_id=153640992856
   - Editor: https://pna0bd-j1.myshopify.com/admin/themes/153640992856/editor
@@ -161,8 +166,13 @@ texto de catálogo superpuesto salvo las 4 originales que el usuario decidió co
 tal cual (Front/Back x1, comparador azul/negro, etc. — su elección, no se tocan).
 
 ## Pendiente / para el usuario
-- **Publicar en vivo**: el tema está en borrador, a la espera de que el usuario confirme el diseño desde
-  la previsualización para publicarlo (`shopify theme publish`).
+- **Nombre de la tienda**: sigue en "Mi tienda" (genérico). El usuario decidió publicar ya y
+  cambiarlo después él mismo desde Panel → Configuración → General → Detalles de la tienda
+  (no se puede cambiar por Admin API con los scopes actuales). Recordarle esto si vuelve a
+  aparecer en la conversación.
+- **Dominio propio**: la tienda vive en el dominio gratuito pna0bd-j1.myshopify.com. Si el
+  usuario quiere un dominio propio (tapreview.com, etc.), es un paso aparte (comprar +
+  conectar) que no se ha hecho.
 - **Páginas legales de texto libre** (Aviso legal y Política de cookies): no son nativas de Shopify y esta
   sesión no pidió permiso de escritura de contenido (`write_content`), así que no se crearon automáticamente.
   Privacidad, Términos, Devoluciones y Envíos SÍ son nativas y ya están enlazadas en el footer (se rellenan
