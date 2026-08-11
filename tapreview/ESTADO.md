@@ -6,7 +6,7 @@
 - Tema base: Dawn (descargado 2026-08-11, vía git clone de Shopify/dawn)
 - Entorno: Node v22.22.2, Shopify CLI 4.6.1 — OK (contenedor remoto en la nube)
 - Cuenta conectada: bygiorgo2@gmail.com
-- Última publicación: (pendiente)
+- Última publicación: (pendiente — tema en preview, esperando OK del usuario para publicar en vivo)
 - Tema de trabajo (no publicado): "TapReview (Claude)" — ID 153640992856
   - Previsualización: https://pna0bd-j1.myshopify.com?preview_theme_id=153640992856
   - Editor: https://pna0bd-j1.myshopify.com/admin/themes/153640992856/editor
@@ -62,10 +62,10 @@
 - [x] 0 Entorno
 - [x] 1 Conexión + sondeo de producto
 - [x] 2 Proyecto (Dawn descargado, fotos del producto descargadas)
-- [ ] 3 Diseño (mensaje 2 al usuario — propuesta de estilo, pendiente de enviar)
-- [ ] 4 Construcción
-- [ ] 5 Páginas
-- [ ] 6 Publicación
+- [x] 3 Diseño (propuesta confirmada por el usuario) + 3b Fotos IA (14 fotos generadas con gpt-image-2)
+- [x] 4 Construcción (7 secciones propias + CSS/JS globales)
+- [x] 5 Páginas (producto completo y asignado, header/footer, favicon)
+- [ ] 6 Publicación (subido como borrador y auto-revisado; falta el OK del usuario para publicar en vivo)
 
 ## Decisiones de diseño (propuesta enviada, pendiente de confirmación del usuario)
 - Público: dueños de negocios locales (restaurantes, salones, tiendas,
@@ -91,4 +91,50 @@
   7. CTA final + producto/precio/comprar
 
 ## Secciones creadas
-(pendiente)
+- `sections/mt-hero.liquid` — banner ancho a sangre (imagen `assets/mt-hero-banner.jpg` generada con IA), capa oscura semitransparente editable, título/subtítulo/CTAs/confianza.
+- `sections/mt-cifras.liquid` — banda oscura con 3-4 cifras animadas (count-up al hacer scroll).
+- `sections/mt-como-funciona.liquid` — 3 pasos, un bloque por paso, una foto IA específica por bloque (`mt-paso-1/2/3.jpg`).
+- `sections/mt-colores.liquid` — comparador blanco/negro, 2 bloques, fotos IA `mt-color-blanco.jpg` / `mt-color-negro.jpg`.
+- `sections/mt-resenas.liquid` — carrusel de testimonios (texto en bloques editables, sin texto quemado en imagen; avatar con inicial o foto opcional).
+- `sections/mt-para-quien.liquid` — grid de 4 tipos de negocio con iconos SVG inline (select editable).
+- `sections/mt-cta-final.liquid` — cierre con producto real (precio dinámico) enlazado a la ficha.
+- `sections/mt-producto.liquid` — página de producto completa: galería real del catálogo, variantes dinámicas (JS probado con Playwright: cambia precio/id y el "Añadir al carrito" funciona de verdad), características, descripción rica, qué incluye.
+- `sections/footer.liquid` (reescrita) + `sections/footer-group.json` — footer propio con marca, navegación, legal y pagos.
+- `assets/mt-styles.css` / `assets/mt-scripts.js` — tokens de diseño, reveals de scroll, contador animado, carrusel, tilt 3D, lógica de variantes y galería. **Importante**: el `<script>` que carga `mt-scripts.js` va en `layout/theme.liquid` (se me olvidó la primera vez — sin él, ninguna animación funciona; ya está corregido y verificado).
+- `templates/index.json` — portada con las 7 secciones en orden.
+- `templates/product.mt.json` — plantilla de producto (`principal` + `como-funciona` + `resenas`), sufijo `mt` ya asignado al producto vía Admin API.
+- `layout/theme.liquid` — favicon (`mt-favicon.png`) + carga global de `mt-scripts.js`.
+- `config/settings_data.json` — esquemas de color (azul #3d7bfb / marino #0a1420), tipografía (Poppins títulos / Work Sans cuerpo), radios redondeados en botones/tarjetas — aplicado también a carrito/búsqueda nativos de Dawn.
+
+## Fotos generadas con IA (gpt-image-2, coste aprox. bajo, quedan detalladas por si se regeneran)
+Todas en `assets/`, mismo set de luz/mármol/fondo azul marino para que combinen entre sí:
+`mt-hero-banner.jpg` (calidad high, 1536x1024), `mt-paso-1.jpg`, `mt-paso-2.jpg`, `mt-paso-3.jpg`,
+`mt-color-blanco.jpg`, `mt-color-negro.jpg`, `mt-cta-producto.jpg`, `mt-favicon.png` (todas medium/high, 1024x1024 salvo indicado).
+
+## Auto-revisión realizada (fase 6)
+- Usada `shopify theme dev` + Playwright (Chromium headless, con `--no-sandbox`) para capturar la portada y
+  la página de producto por secciones (el acceso de red saliente de Chromium a internet externo está bloqueado
+  en este contenedor, así que la revisión visual se hizo contra `http://127.0.0.1:9292`, no en el dominio público).
+- Encontrados y corregidos 2 bugs reales antes de enseñar nada al usuario:
+  1. Faltaba la etiqueta `<script>` de `mt-scripts.js` en `theme.liquid` — nada de lo que dependía de JS
+     (reveals, contador, carrusel, variantes) funcionaba. Corregido.
+  2. Icono de "Salones y barberías" (tijeras) mal dibujado, salía como una X. Corregido.
+  3. Títulos de columna del footer invisibles (heredaban mal el color por una regla de Dawn que targetea
+     `h3` directamente). Corregido con `color: inherit` explícito.
+- Probado funcionalmente con Playwright: cambio de variante actualiza precio/id, y "Añadir al carrito"
+  agrega de verdad el producto correcto al carrito real de la tienda.
+- Push final limpio (sin errores) al tema de trabajo "TapReview (Claude)" — ID 153640992856.
+
+## Pendiente / para el usuario
+- **Publicar en vivo**: el tema está en borrador, a la espera de que el usuario confirme el diseño desde
+  la previsualización para publicarlo (`shopify theme publish`).
+- **Páginas legales de texto libre** (Aviso legal y Política de cookies): no son nativas de Shopify y esta
+  sesión no pidió permiso de escritura de contenido (`write_content`), así que no se crearon automáticamente.
+  Privacidad, Términos, Devoluciones y Envíos SÍ son nativas y ya están enlazadas en el footer (se rellenan
+  en Panel → Configuración → Políticas). Se le dará al usuario el texto de Aviso legal/Cookies para pegar en
+  Panel → Contenido → Páginas, en 3 pasos.
+- **Logo real en el header**: por ahora el header muestra el nombre de la tienda en texto (Dawn necesita
+  subir el logo a Contenido/Archivos, algo que solo puede hacerse con permisos de contenido). El favicon
+  (icono "TR") sí quedó puesto automáticamente.
+- Redes sociales del footer (Instagram/Facebook/TikTok) se muestran solo si el usuario las configura en
+  Tema → Ajustes del tema → Redes sociales (están vacías por defecto, es normal que no se vean iconos aún).

@@ -1,0 +1,80 @@
+{{ 'mt-styles.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{% endstyle %}
+
+<section class="mt-section mt-paraquien">
+  <div class="mt-container">
+    <div class="mt-como-encabezado mt-reveal">
+      <span class="mt-eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 class="mt-h2">{{ section.settings.headline }}</h2>
+    </div>
+    <div class="mt-paraquien-grid">
+      {%- for block in section.blocks -%}
+        <div class="mt-paraquien-tarjeta mt-reveal mt-reveal-{{ forloop.index }}" {{ block.shopify_attributes }}>
+          <div class="mt-paraquien-icono">
+            {%- case block.settings.icono -%}
+              {%- when 'restaurante' -%}
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 2v7a2 2 0 002 2h0a2 2 0 002-2V2M9 11v11M17 2c-1.7 0-3 2-3 5s1.3 5 3 5v9" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              {%- when 'salon' -%}
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.5" y2="15.5" stroke-linecap="round"/><line x1="8.5" y1="8.5" x2="20" y2="20" stroke-linecap="round"/></svg>
+              {%- when 'tienda' -%}
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9l1.5-5h15L21 9M3 9v11h18V9M3 9h18M9 20v-6h6v6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              {%- when 'consultorio' -%}
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3v6M9 6h6M6 12h12v7a2 2 0 01-2 2H8a2 2 0 01-2-2v-7z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              {%- else -%}
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/></svg>
+            {%- endcase -%}
+          </div>
+          <h3 class="mt-paraquien-titulo">{{ block.settings.titulo }}</h3>
+          <p class="mt-paraquien-texto">{{ block.settings.texto }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MT – Para quién es",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "Pensado para negocios como el tuyo" },
+    { "type": "text", "id": "headline", "label": "Título", "default": "Funciona en cualquier mostrador" },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior (px)", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior (px)", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 96 }
+  ],
+  "blocks": [
+    {
+      "type": "negocio",
+      "name": "Tipo de negocio",
+      "settings": [
+        { "type": "select", "id": "icono", "label": "Icono", "options": [
+          {"value": "restaurante", "label": "Restaurante"},
+          {"value": "salon", "label": "Salón / barbería"},
+          {"value": "tienda", "label": "Tienda"},
+          {"value": "consultorio", "label": "Consultorio"}
+        ], "default": "restaurante" },
+        { "type": "text", "id": "titulo", "label": "Título", "default": "Restaurantes y cafés" },
+        { "type": "textarea", "id": "texto", "label": "Texto", "default": "En la mesa o junto a la caja, para que cada comensal contento lo cuente." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MT – Para quién es",
+      "blocks": [
+        { "type": "negocio", "settings": { "icono": "restaurante", "titulo": "Restaurantes y cafés", "texto": "En la mesa o junto a la caja, para que cada comensal contento lo cuente." } },
+        { "type": "negocio", "settings": { "icono": "salon", "titulo": "Salones y barberías", "texto": "En el espejo o el mostrador: el cliente lo usa mientras espera o al salir." } },
+        { "type": "negocio", "settings": { "icono": "tienda", "titulo": "Tiendas y comercios", "texto": "Junto a la caja registradora, para captar la satisfacción justo tras la compra." } },
+        { "type": "negocio", "settings": { "icono": "consultorio", "titulo": "Consultorios y clínicas", "texto": "En recepción, para pacientes que salen conformes con la atención recibida." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

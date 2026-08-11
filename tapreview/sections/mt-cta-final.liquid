@@ -1,0 +1,63 @@
+{{ 'mt-styles.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{% endstyle %}
+
+<section id="producto" class="mt-section mt-cta-final mt-oscuro mt-recorta">
+  <div class="mt-cta-fondo" aria-hidden="true"></div>
+  <div class="mt-container mt-cta-grid">
+    <div class="mt-cta-visual mt-reveal">
+      {%- if section.settings.imagen != blank -%}
+        <img src="{{ section.settings.imagen | image_url: width: 900 }}" alt="{{ section.settings.imagen.alt | default: section.settings.headline | escape }}" loading="lazy">
+      {%- else -%}
+        <img src="{{ 'mt-cta-producto.jpg' | asset_url }}" alt="{{ section.settings.headline | escape }}" loading="lazy">
+      {%- endif -%}
+    </div>
+    <div class="mt-cta-copy mt-reveal mt-reveal-2">
+      <span class="mt-eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 class="mt-h2 mt-cta-titulo">{{ section.settings.headline }}</h2>
+      <p class="mt-cta-sub">{{ section.settings.subheadline }}</p>
+
+      {%- if section.settings.producto != blank -%}
+        {%- assign p = section.settings.producto -%}
+        <div class="mt-cta-precio">
+          <span class="mt-cta-precio-actual">{{ p.selected_or_first_available_variant.price | money }}</span>
+          {%- if p.selected_or_first_available_variant.compare_at_price > p.selected_or_first_available_variant.price -%}
+            <span class="mt-cta-precio-antes">{{ p.selected_or_first_available_variant.compare_at_price | money }}</span>
+          {%- endif -%}
+        </div>
+        <a href="{{ p.url }}" class="mt-btn mt-btn-primario mt-cta-boton">{{ section.settings.boton_texto }}</a>
+      {%- else -%}
+        <a href="{{ section.settings.boton_url | default: '#' }}" class="mt-btn mt-btn-primario mt-cta-boton">{{ section.settings.boton_texto }}</a>
+      {%- endif -%}
+
+      <p class="mt-cta-nota">{{ section.settings.nota }}</p>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MT – Cierre y compra",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "Empieza hoy" },
+    { "type": "text", "id": "headline", "label": "Título", "default": "Tus próximas reseñas de 5 estrellas empiezan aquí" },
+    { "type": "textarea", "id": "subheadline", "label": "Texto de apoyo", "default": "Envío rápido, garantía de calidad y configuración en menos de 2 minutos." },
+    { "type": "product", "id": "producto", "label": "Producto a mostrar" },
+    { "type": "text", "id": "boton_texto", "label": "Texto del botón", "default": "Comprar ahora" },
+    { "type": "url", "id": "boton_url", "label": "Enlace del botón (si no eliges producto)" },
+    { "type": "text", "id": "nota", "label": "Nota bajo el botón", "default": "Pago seguro · Envío a todo el país" },
+    { "type": "header", "content": "Imagen (si no eliges producto arriba)" },
+    { "type": "image_picker", "id": "imagen", "label": "Foto" },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior (px)", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior (px)", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 96 }
+  ],
+  "presets": [ { "name": "MT – Cierre y compra" } ]
+}
+{% endschema %}

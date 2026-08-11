@@ -1,0 +1,108 @@
+{{ 'mt-styles.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  #shopify-section-{{ section.id }} .mt-hero-banner {
+    min-height: {{ section.settings.altura_movil }}px;
+  }
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .mt-hero-eyebrow { color: {{ section.settings.color_acento }}; }
+  #shopify-section-{{ section.id }} .mt-hero-eyebrow::before { background: {{ section.settings.color_acento }}; }
+  #shopify-section-{{ section.id }} .mt-hero-titulo {
+    font-size: clamp(30px, {{ section.settings.tamano_titulo }}px, {{ section.settings.tamano_titulo }}px);
+  }
+  #shopify-section-{{ section.id }} .mt-hero-scrim {
+    background: linear-gradient(
+      {{ section.settings.direccion_degradado }},
+      rgba(6, 12, 22, {{ section.settings.opacidad_capa | divided_by: 100.0 }}) 0%,
+      rgba(6, 12, 22, {{ section.settings.opacidad_capa | divided_by: 100.0 | times: 0.55 }}) 45%,
+      rgba(6, 12, 22, {{ section.settings.opacidad_capa | divided_by: 100.0 | times: 0.18 }}) 75%,
+      rgba(6, 12, 22, 0.05) 100%
+    );
+  }
+  @media (min-width: 750px) {
+    #shopify-section-{{ section.id }} .mt-hero-banner { min-height: {{ section.settings.altura_desktop }}px; }
+  }
+{% endstyle %}
+
+<section class="mt-hero mt-section mt-recorta">
+  <div class="mt-hero-banner">
+    {%- if section.settings.imagen != blank -%}
+      <img
+        src="{{ section.settings.imagen | image_url: width: 2000 }}"
+        srcset="{{ section.settings.imagen | image_url: width: 900 }} 900w, {{ section.settings.imagen | image_url: width: 1600 }} 1600w, {{ section.settings.imagen | image_url: width: 2400 }} 2400w"
+        sizes="100vw"
+        alt="{{ section.settings.imagen.alt | default: section.settings.headline | escape }}"
+        class="mt-hero-img-fondo"
+        loading="eager"
+        fetchpriority="high">
+    {%- else -%}
+      <img src="{{ 'mt-hero-banner.jpg' | asset_url }}" alt="{{ section.settings.headline | escape }}" class="mt-hero-img-fondo" loading="eager" fetchpriority="high">
+    {%- endif -%}
+    <div class="mt-hero-scrim" aria-hidden="true"></div>
+
+    <div class="mt-container mt-hero-contenido">
+      <div class="mt-hero-copy mt-reveal mt-reveal-1">
+        <span class="mt-eyebrow mt-hero-eyebrow">{{ section.settings.eyebrow }}</span>
+        <h1 class="mt-h2 mt-hero-titulo">{{ section.settings.headline }}</h1>
+        <p class="mt-hero-sub">{{ section.settings.subheadline | newline_to_br }}</p>
+        <div class="mt-hero-ctas">
+          <a href="{{ section.settings.boton_url | default: '#producto' }}" class="mt-btn mt-btn-primario">{{ section.settings.boton_texto }}</a>
+          <a href="{{ section.settings.boton_secundario_url | default: '#como-funciona' }}" class="mt-btn mt-btn-fantasma">{{ section.settings.boton_secundario_texto }}</a>
+        </div>
+        <div class="mt-hero-confianza">
+          {%- for i in (1..3) -%}
+            {%- assign texto_key = 'confianza_' | append: i -%}
+            {%- assign texto = section.settings[texto_key] -%}
+            {%- if texto != blank -%}
+              <div class="mt-hero-confianza-item">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span>{{ texto }}</span>
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MT – Portada (hero)",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "Más reseñas, sin fricción" },
+    { "type": "text", "id": "headline", "label": "Título", "default": "Convierte cada cliente feliz en una reseña de 5 estrellas" },
+    { "type": "textarea", "id": "subheadline", "label": "Texto de apoyo", "default": "Acercan el celular o escanean el código y en segundos dejan su opinión en Google. Sin buscar tu negocio, sin fricción, sin excusas." },
+    { "type": "header", "content": "Botones" },
+    { "type": "text", "id": "boton_texto", "label": "Texto botón principal", "default": "Quiero mi TapReview" },
+    { "type": "url", "id": "boton_url", "label": "Enlace botón principal" },
+    { "type": "text", "id": "boton_secundario_texto", "label": "Texto botón secundario", "default": "Ver cómo funciona" },
+    { "type": "url", "id": "boton_secundario_url", "label": "Enlace botón secundario" },
+    { "type": "header", "content": "Confianza" },
+    { "type": "text", "id": "confianza_1", "label": "Punto de confianza 1", "default": "Envío a todo el país" },
+    { "type": "text", "id": "confianza_2", "label": "Punto de confianza 2", "default": "Configuración en 2 minutos" },
+    { "type": "text", "id": "confianza_3", "label": "Punto de confianza 3", "default": "Funciona sin apps ni cuentas" },
+    { "type": "header", "content": "Imagen de fondo" },
+    { "type": "image_picker", "id": "imagen", "label": "Foto de banner (panorámica)" },
+    { "type": "select", "id": "direccion_degradado", "label": "Lado donde va el texto (capa oscura)", "options": [
+      {"value": "90deg", "label": "Izquierda"},
+      {"value": "270deg", "label": "Derecha"}
+    ], "default": "90deg" },
+    { "type": "range", "id": "opacidad_capa", "label": "Intensidad de la capa oscura (%)", "min": 0, "max": 100, "step": 5, "default": 80 },
+    { "type": "range", "id": "altura_desktop", "label": "Altura del banner en escritorio (px)", "min": 380, "max": 760, "step": 10, "unit": "px", "default": 560 },
+    { "type": "range", "id": "altura_movil", "label": "Altura del banner en móvil (px)", "min": 380, "max": 760, "step": 10, "unit": "px", "default": 560 },
+    { "type": "header", "content": "Color" },
+    { "type": "color", "id": "color_acento", "label": "Color de acento", "default": "#3d7bfb" },
+    { "type": "header", "content": "Tipografía" },
+    { "type": "range", "id": "tamano_titulo", "label": "Tamaño del título (px)", "min": 28, "max": 68, "step": 2, "unit": "px", "default": 50 },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior (px)", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior (px)", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 0 }
+  ],
+  "presets": [ { "name": "MT – Portada (hero)" } ]
+}
+{% endschema %}

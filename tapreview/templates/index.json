@@ -1,75 +1,191 @@
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "mt-hero": {
+      "type": "mt-hero",
+      "settings": {
+        "eyebrow": "Más reseñas, sin fricción",
+        "headline": "Convierte cada cliente feliz en una reseña de 5 estrellas",
+        "subheadline": "Acercan el celular o escanean el código y en segundos dejan su opinión en Google, Facebook o Instagram. Sin buscar tu negocio, sin descargar nada, sin excusas.",
+        "boton_texto": "Quiero mi TapReview",
+        "boton_url": "#producto",
+        "boton_secundario_texto": "Ver cómo funciona",
+        "boton_secundario_url": "#como-funciona",
+        "confianza_1": "Envío a todo el país",
+        "confianza_2": "Configuración en 2 minutos",
+        "confianza_3": "Funciona sin apps ni cuentas",
+        "color_acento": "#3d7bfb",
+        "tamano_titulo": 56,
+        "padding_top": 64,
+        "padding_bottom": 80
+      }
+    },
+    "mt-cifras": {
+      "type": "mt-cifras",
+      "settings": {
+        "cifra_1_hasta": "15",
+        "cifra_1_prefijo": "+",
+        "cifra_1_sufijo": "%",
+        "cifra_1_etiqueta": "más ingresos al subir 1 estrella en Google (Harvard Business School)",
+        "cifra_2_hasta": "44",
+        "cifra_2_prefijo": "+",
+        "cifra_2_sufijo": "%",
+        "cifra_2_etiqueta": "más clientes en negocios con reseñas activas",
+        "cifra_3_hasta": "10",
+        "cifra_3_prefijo": "<",
+        "cifra_3_sufijo": "s",
+        "cifra_3_etiqueta": "para dejar una reseña, con un solo toque",
+        "cifra_4_etiqueta": "",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    },
+    "mt-como-funciona": {
+      "type": "mt-como-funciona",
+      "settings": {
+        "eyebrow": "Así de simple",
+        "headline": "Tres pasos y listo",
+        "subheadline": "Sin apps que descargar, sin cuentas que crear. Funciona con cualquier celular.",
+        "padding_top": 96,
+        "padding_bottom": 96
+      },
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "paso-1": {
+          "type": "paso",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
+            "titulo": "Acerca el celular",
+            "texto": "El cliente apoya su teléfono sobre la placa (NFC) o escanea el código QR si lo prefiere.",
+            "imagen_respaldo": "mt-paso-1.jpg"
           }
         },
-        "button": {
-          "type": "buttons",
+        "paso-2": {
+          "type": "paso",
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "titulo": "Se abre la reseña al instante",
+            "texto": "Sin buscar tu negocio ni escribir nada: la ventana de reseña aparece directa en su pantalla.",
+            "imagen_respaldo": "mt-paso-2.jpg"
+          }
+        },
+        "paso-3": {
+          "type": "paso",
+          "settings": {
+            "titulo": "Te deja sus 5 estrellas",
+            "texto": "Escribe unas palabras y publica. Todo en menos de 10 segundos, sin fricción.",
+            "imagen_respaldo": "mt-paso-3.jpg"
           }
         }
       },
-      "block_order": [
-        "heading",
-        "button"
-      ],
-      "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
-      }
+      "block_order": ["paso-1", "paso-2", "paso-3"]
     },
-    "featured_collection": {
-      "type": "featured-collection",
+    "mt-colores": {
+      "type": "mt-colores",
       "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "eyebrow": "A tu estilo",
+        "headline": "Elige el color que combine con tu negocio",
+        "padding_top": 96,
+        "padding_bottom": 96
+      },
+      "blocks": {
+        "color-1": {
+          "type": "color",
+          "settings": {
+            "nombre": "Blanco y azul",
+            "texto": "El clásico: reconocible al instante, combina con cualquier mostrador.",
+            "color_swatch": "#3d7bfb",
+            "color_fondo_tarjeta": "#eef3ff",
+            "imagen_respaldo": "mt-color-blanco.jpg"
+          }
+        },
+        "color-2": {
+          "type": "color",
+          "settings": {
+            "nombre": "Negro elegante",
+            "texto": "Para negocios con una estética más sobria y premium.",
+            "color_swatch": "#101828",
+            "color_fondo_tarjeta": "#f1f2f4",
+            "imagen_respaldo": "mt-color-negro.jpg"
+          }
+        }
+      },
+      "block_order": ["color-1", "color-2"]
+    },
+    "mt-resenas": {
+      "type": "mt-resenas",
+      "settings": {
+        "eyebrow": "Negocios reales",
+        "headline": "Lo que dicen quienes ya lo usan",
+        "color_fondo": "#f4f7fc",
+        "padding_top": 96,
+        "padding_bottom": 96
+      },
+      "blocks": {
+        "resena-1": {
+          "type": "resena",
+          "settings": {
+            "nombre": "Ana Torres",
+            "negocio": "Café Origen",
+            "estrellas": 5,
+            "texto": "Antes pedíamos reseñas y nadie las dejaba. Con la placa en la caja, ahora sumamos varias cada día sin pedirlo casi."
+          }
+        },
+        "resena-2": {
+          "type": "resena",
+          "settings": {
+            "nombre": "Julián Reyes",
+            "negocio": "Barbería Reyes",
+            "estrellas": 5,
+            "texto": "Se paga sola: en un mes subimos de 4.3 a 4.8 estrellas en Google y se nota en las reservas."
+          }
+        },
+        "resena-3": {
+          "type": "resena",
+          "settings": {
+            "nombre": "Marcela Ibáñez",
+            "negocio": "Clínica Dental Ibáñez",
+            "estrellas": 5,
+            "texto": "Los pacientes la usan sin que nadie les explique nada. Es literal apoyar el celular y listo."
+          }
+        },
+        "resena-4": {
+          "type": "resena",
+          "settings": {
+            "nombre": "Diego Salas",
+            "negocio": "Tienda Salas",
+            "estrellas": 5,
+            "texto": "La calidad del material es muy buena y llegó rápido. La puse junto a la caja registradora y ya funciona sola."
+          }
+        }
+      },
+      "block_order": ["resena-1", "resena-2", "resena-3", "resena-4"]
+    },
+    "mt-para-quien": {
+      "type": "mt-para-quien",
+      "settings": {
+        "eyebrow": "Pensado para negocios como el tuyo",
+        "headline": "Funciona en cualquier mostrador",
+        "padding_top": 96,
+        "padding_bottom": 96
+      },
+      "blocks": {
+        "negocio-1": { "type": "negocio", "settings": { "icono": "restaurante", "titulo": "Restaurantes y cafés", "texto": "En la mesa o junto a la caja, para que cada comensal contento lo cuente." } },
+        "negocio-2": { "type": "negocio", "settings": { "icono": "salon", "titulo": "Salones y barberías", "texto": "En el espejo o el mostrador: el cliente lo usa mientras espera o al salir." } },
+        "negocio-3": { "type": "negocio", "settings": { "icono": "tienda", "titulo": "Tiendas y comercios", "texto": "Junto a la caja registradora, para captar la satisfacción justo tras la compra." } },
+        "negocio-4": { "type": "negocio", "settings": { "icono": "consultorio", "titulo": "Consultorios y clínicas", "texto": "En recepción, para pacientes que salen conformes con la atención recibida." } }
+      },
+      "block_order": ["negocio-1", "negocio-2", "negocio-3", "negocio-4"]
+    },
+    "mt-cta-final": {
+      "type": "mt-cta-final",
+      "settings": {
+        "eyebrow": "Empieza hoy",
+        "headline": "Tus próximas reseñas de 5 estrellas empiezan aquí",
+        "subheadline": "Envío rápido, garantía de calidad y configuración en menos de 2 minutos.",
+        "producto": "hilo-programmable-nfc-215-square-for-google-review-card-nfc-station-table-13-56mhz-qr-code-editable-standing-card",
+        "boton_texto": "Comprar ahora",
+        "nota": "Pago seguro · Envío a todo el país",
+        "padding_top": 96,
+        "padding_bottom": 112
       }
     }
   },
-  "order": [
-    "image_banner",
-    "featured_collection"
-  ]
+  "order": ["mt-hero", "mt-cifras", "mt-como-funciona", "mt-colores", "mt-resenas", "mt-para-quien", "mt-cta-final"]
 }

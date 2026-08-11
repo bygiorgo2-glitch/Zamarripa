@@ -1,0 +1,76 @@
+{{ 'mt-styles.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+  #shopify-section-{{ section.id }} .mt-cifras-fondo { background: {{ section.settings.color_fondo }}; }
+  #shopify-section-{{ section.id }} .mt-cifra-numero { color: {{ section.settings.color_numero }}; }
+{% endstyle %}
+
+<section class="mt-cifras mt-section">
+  <div class="mt-cifras-fondo">
+    <div class="mt-container mt-cifras-grid">
+      {%- for i in (1..4) -%}
+        {%- assign hasta_key = 'cifra_' | append: i | append: '_hasta' -%}
+        {%- assign prefijo_key = 'cifra_' | append: i | append: '_prefijo' -%}
+        {%- assign sufijo_key = 'cifra_' | append: i | append: '_sufijo' -%}
+        {%- assign decimales_key = 'cifra_' | append: i | append: '_decimales' -%}
+        {%- assign etiqueta_key = 'cifra_' | append: i | append: '_etiqueta' -%}
+        {%- assign hasta = section.settings[hasta_key] -%}
+        {%- assign etiqueta = section.settings[etiqueta_key] -%}
+        {%- if hasta != blank and etiqueta != blank -%}
+          <div class="mt-cifra mt-reveal mt-reveal-{{ forloop.index }}">
+            <span class="mt-cifra-numero mt-numero"
+                  data-mt-hasta="{{ hasta }}"
+                  data-mt-prefijo="{{ section.settings[prefijo_key] }}"
+                  data-mt-sufijo="{{ section.settings[sufijo_key] }}"
+                  data-mt-decimales="{{ section.settings[decimales_key] }}">0</span>
+            <p class="mt-cifra-etiqueta">{{ etiqueta }}</p>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MT – Cifras",
+  "tag": "section",
+  "settings": [
+    { "type": "header", "content": "Cifra 1" },
+    { "type": "text", "id": "cifra_1_hasta", "label": "Número", "default": "15" },
+    { "type": "text", "id": "cifra_1_prefijo", "label": "Prefijo", "default": "+" },
+    { "type": "text", "id": "cifra_1_sufijo", "label": "Sufijo", "default": "%" },
+    { "type": "range", "id": "cifra_1_decimales", "label": "Decimales", "min": 0, "max": 2, "step": 1, "default": 0 },
+    { "type": "text", "id": "cifra_1_etiqueta", "label": "Descripción", "default": "más ingresos al subir 1 estrella en Google (Harvard Business School)" },
+    { "type": "header", "content": "Cifra 2" },
+    { "type": "text", "id": "cifra_2_hasta", "label": "Número", "default": "44" },
+    { "type": "text", "id": "cifra_2_prefijo", "label": "Prefijo", "default": "+" },
+    { "type": "text", "id": "cifra_2_sufijo", "label": "Sufijo", "default": "%" },
+    { "type": "range", "id": "cifra_2_decimales", "label": "Decimales", "min": 0, "max": 2, "step": 1, "default": 0 },
+    { "type": "text", "id": "cifra_2_etiqueta", "label": "Descripción", "default": "más clientes en negocios con reseñas activas" },
+    { "type": "header", "content": "Cifra 3" },
+    { "type": "text", "id": "cifra_3_hasta", "label": "Número", "default": "10" },
+    { "type": "text", "id": "cifra_3_prefijo", "label": "Prefijo", "default": "<" },
+    { "type": "text", "id": "cifra_3_sufijo", "label": "Sufijo", "default": "s" },
+    { "type": "range", "id": "cifra_3_decimales", "label": "Decimales", "min": 0, "max": 2, "step": 1, "default": 0 },
+    { "type": "text", "id": "cifra_3_etiqueta", "label": "Descripción", "default": "para dejar una reseña, un solo toque" },
+    { "type": "header", "content": "Cifra 4" },
+    { "type": "text", "id": "cifra_4_hasta", "label": "Número", "default": "0" },
+    { "type": "text", "id": "cifra_4_prefijo", "label": "Prefijo" },
+    { "type": "text", "id": "cifra_4_sufijo", "label": "Sufijo" },
+    { "type": "range", "id": "cifra_4_decimales", "label": "Decimales", "min": 0, "max": 2, "step": 1, "default": 0 },
+    { "type": "text", "id": "cifra_4_etiqueta", "label": "Descripción (borra el texto para ocultar esta cifra)", "default": "Cifra extra opcional" },
+    { "type": "header", "content": "Color" },
+    { "type": "color", "id": "color_fondo", "label": "Fondo", "default": "#0a1420" },
+    { "type": "color", "id": "color_numero", "label": "Color del número", "default": "#ffffff" },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior (px)", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior (px)", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 56 }
+  ],
+  "presets": [ { "name": "MT – Cifras" } ]
+}
+{% endschema %}
