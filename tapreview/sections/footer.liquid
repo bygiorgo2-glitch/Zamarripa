@@ -1,0 +1,116 @@
+{{ 'mt-styles.css' | asset_url | stylesheet_tag }}
+{{ 'component-list-payment.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  #shopify-section-{{ section.id }} .mt-footer { background: {{ section.settings.color_fondo }}; color: {{ section.settings.color_texto }}; }
+  #shopify-section-{{ section.id }} .mt-footer a { color: {{ section.settings.color_texto }}; }
+  #shopify-section-{{ section.id }} .mt-footer-tagline,
+  #shopify-section-{{ section.id }} .mt-footer-bottom { color: {{ section.settings.color_texto }}; opacity: 0.7; }
+{% endstyle %}
+
+<footer class="mt-footer">
+  <div class="mt-container mt-footer-top">
+    <div class="mt-footer-marca">
+      {%- if section.settings.logo != blank -%}
+        <img src="{{ section.settings.logo | image_url: width: section.settings.logo_width | times: 2 }}"
+             alt="{{ shop.name | escape }}" width="{{ section.settings.logo_width }}"
+             style="width: {{ section.settings.logo_width }}px; height: auto;" loading="lazy">
+      {%- else -%}
+        <span class="mt-footer-nombre">{{ shop.name }}</span>
+      {%- endif -%}
+      <p class="mt-footer-tagline">{{ section.settings.tagline }}</p>
+      {%- if section.settings.mostrar_social -%}
+        <div class="mt-footer-social">
+          {%- if settings.social_instagram_link != blank -%}
+            <a href="{{ settings.social_instagram_link }}" aria-label="Instagram">{{ 'icon-instagram.svg' | inline_asset_content }}</a>
+          {%- endif -%}
+          {%- if settings.social_facebook_link != blank -%}
+            <a href="{{ settings.social_facebook_link }}" aria-label="Facebook">{{ 'icon-facebook.svg' | inline_asset_content }}</a>
+          {%- endif -%}
+          {%- if settings.social_tiktok_link != blank -%}
+            <a href="{{ settings.social_tiktok_link }}" aria-label="TikTok">{{ 'icon-tiktok.svg' | inline_asset_content }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="mt-footer-nav">
+      <h3 class="mt-footer-col-titulo">{{ section.settings.nav_titulo }}</h3>
+      <ul class="mt-footer-lista">
+        {%- for i in (1..5) -%}
+          {%- assign label_key = 'nav_link_' | append: i | append: '_label' -%}
+          {%- assign url_key = 'nav_link_' | append: i | append: '_url' -%}
+          {%- assign label = section.settings[label_key] -%}
+          {%- if label != blank -%}
+            <li><a href="{{ section.settings[url_key] | default: '#' }}">{{ label }}</a></li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+
+    <div class="mt-footer-nav">
+      <h3 class="mt-footer-col-titulo">{{ section.settings.legal_titulo }}</h3>
+      <ul class="mt-footer-lista">
+        <li><a href="{{ routes.root_url }}pages/aviso-legal">{{ section.settings.legal_aviso_texto }}</a></li>
+        <li><a href="{{ routes.root_url }}pages/cookies">{{ section.settings.legal_cookies_texto }}</a></li>
+        {%- if shop.privacy_policy -%}<li><a href="{{ shop.privacy_policy.url }}">{{ shop.privacy_policy.title }}</a></li>{%- endif -%}
+        {%- if shop.terms_of_service -%}<li><a href="{{ shop.terms_of_service.url }}">{{ shop.terms_of_service.title }}</a></li>{%- endif -%}
+        {%- if shop.refund_policy -%}<li><a href="{{ shop.refund_policy.url }}">{{ shop.refund_policy.title }}</a></li>{%- endif -%}
+        {%- if shop.shipping_policy -%}<li><a href="{{ shop.shipping_policy.url }}">{{ shop.shipping_policy.title }}</a></li>{%- endif -%}
+      </ul>
+    </div>
+
+    <div class="mt-footer-nav">
+      <h3 class="mt-footer-col-titulo">{{ section.settings.sobre_titulo }}</h3>
+      <p class="mt-footer-sobre-texto">{{ section.settings.sobre_texto }}</p>
+    </div>
+  </div>
+
+  <div class="mt-container mt-footer-bottom">
+    <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. {{ section.settings.derechos_texto }}</span>
+    {%- if section.settings.mostrar_pagos and shop.enabled_payment_types.size > 0 -%}
+      <ul class="list-payment mt-footer-pagos" role="list">
+        {%- for type in shop.enabled_payment_types -%}
+          <li class="list-payment__item">{{ type | payment_type_svg_tag: class: 'icon' }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "MT – Footer",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "range", "id": "logo_width", "label": "Ancho del logo (px)", "min": 60, "max": 260, "step": 10, "default": 140 },
+    { "type": "textarea", "id": "tagline", "label": "Frase de marca", "default": "Ayudamos a negocios locales a conseguir más reseñas de 5 estrellas, sin fricción." },
+    { "type": "checkbox", "id": "mostrar_social", "label": "Mostrar redes sociales", "default": true },
+    { "type": "header", "content": "Navegación" },
+    { "type": "text", "id": "nav_titulo", "label": "Título columna", "default": "Tienda" },
+    { "type": "text", "id": "nav_link_1_label", "label": "Enlace 1 texto", "default": "Producto" },
+    { "type": "url", "id": "nav_link_1_url", "label": "Enlace 1 URL" },
+    { "type": "text", "id": "nav_link_2_label", "label": "Enlace 2 texto", "default": "Cómo funciona" },
+    { "type": "url", "id": "nav_link_2_url", "label": "Enlace 2 URL" },
+    { "type": "text", "id": "nav_link_3_label", "label": "Enlace 3 texto", "default": "Contacto" },
+    { "type": "url", "id": "nav_link_3_url", "label": "Enlace 3 URL" },
+    { "type": "text", "id": "nav_link_4_label", "label": "Enlace 4 texto (opcional)" },
+    { "type": "url", "id": "nav_link_4_url", "label": "Enlace 4 URL" },
+    { "type": "text", "id": "nav_link_5_label", "label": "Enlace 5 texto (opcional)" },
+    { "type": "url", "id": "nav_link_5_url", "label": "Enlace 5 URL" },
+    { "type": "header", "content": "Legal" },
+    { "type": "text", "id": "legal_titulo", "label": "Título columna", "default": "Legal" },
+    { "type": "text", "id": "legal_aviso_texto", "label": "Texto aviso legal", "default": "Aviso legal" },
+    { "type": "text", "id": "legal_cookies_texto", "label": "Texto cookies", "default": "Política de cookies" },
+    { "type": "header", "content": "Sobre la marca" },
+    { "type": "text", "id": "sobre_titulo", "label": "Título columna", "default": "TapReview™" },
+    { "type": "textarea", "id": "sobre_texto", "label": "Texto", "default": "Placas NFC + QR para negocios que quieren crecer con reseñas reales." },
+    { "type": "header", "content": "Barra inferior" },
+    { "type": "text", "id": "derechos_texto", "label": "Texto de derechos", "default": "Todos los derechos reservados." },
+    { "type": "checkbox", "id": "mostrar_pagos", "label": "Mostrar iconos de pago", "default": true },
+    { "type": "header", "content": "Color" },
+    { "type": "color", "id": "color_fondo", "label": "Fondo", "default": "#0a1420" },
+    { "type": "color", "id": "color_texto", "label": "Texto", "default": "#f5f8ff" }
+  ]
+}
+{% endschema %}

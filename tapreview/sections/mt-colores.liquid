@@ -1,0 +1,72 @@
+{{ 'mt-styles.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{% endstyle %}
+
+<section class="mt-section mt-colores">
+  <div class="mt-container">
+    <div class="mt-como-encabezado mt-reveal">
+      <span class="mt-eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 class="mt-h2">{{ section.settings.headline }}</h2>
+    </div>
+    <div class="mt-colores-grid">
+      {%- for block in section.blocks -%}
+        <div class="mt-color-tarjeta mt-tarjeta mt-reveal mt-reveal-{{ forloop.index }}" data-mt-tilt {{ block.shopify_attributes }}>
+          <div class="mt-color-media" style="background:{{ block.settings.color_fondo_tarjeta }};">
+            {%- if block.settings.imagen != blank -%}
+              <img src="{{ block.settings.imagen | image_url: width: 800 }}" alt="{{ block.settings.imagen.alt | default: block.settings.nombre | escape }}" loading="lazy">
+            {%- else -%}
+              <img src="{{ block.settings.imagen_respaldo | asset_url }}" alt="{{ block.settings.nombre | escape }}" loading="lazy">
+            {%- endif -%}
+          </div>
+          <div class="mt-color-info">
+            <span class="mt-color-swatch" style="background:{{ block.settings.color_swatch }};"></span>
+            <h3 class="mt-color-nombre">{{ block.settings.nombre }}</h3>
+            <p class="mt-color-texto">{{ block.settings.texto }}</p>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MT – Elige tu color",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "A tu estilo" },
+    { "type": "text", "id": "headline", "label": "Título", "default": "Elige el color que combine con tu negocio" },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior (px)", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 96 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior (px)", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 96 }
+  ],
+  "blocks": [
+    {
+      "type": "color",
+      "name": "Variante de color",
+      "settings": [
+        { "type": "image_picker", "id": "imagen", "label": "Foto" },
+        { "type": "text", "id": "imagen_respaldo", "label": "Archivo de respaldo (uso interno)", "default": "mt-color-blanco.jpg" },
+        { "type": "text", "id": "nombre", "label": "Nombre", "default": "Blanco y azul" },
+        { "type": "textarea", "id": "texto", "label": "Descripción", "default": "El clásico: reconocible al instante, combina con cualquier mostrador." },
+        { "type": "color", "id": "color_swatch", "label": "Color de la muestra", "default": "#3d7bfb" },
+        { "type": "color", "id": "color_fondo_tarjeta", "label": "Fondo de la tarjeta", "default": "#f4f7fc" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MT – Elige tu color",
+      "blocks": [
+        { "type": "color", "settings": { "nombre": "Blanco y azul", "texto": "El clásico: reconocible al instante, combina con cualquier mostrador.", "color_swatch": "#3d7bfb", "color_fondo_tarjeta": "#eef3ff", "imagen_respaldo": "mt-color-blanco.jpg" } },
+        { "type": "color", "settings": { "nombre": "Negro elegante", "texto": "Para negocios con una estética más sobria y premium.", "color_swatch": "#101828", "color_fondo_tarjeta": "#f1f2f4", "imagen_respaldo": "mt-color-negro.jpg" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

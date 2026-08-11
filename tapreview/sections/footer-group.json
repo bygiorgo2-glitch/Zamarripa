@@ -1,0 +1,35 @@
+{
+  "name": "t:sections.footer.name",
+  "type": "footer",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {},
+      "block_order": [],
+      "settings": {
+        "logo_width": 140,
+        "tagline": "Ayudamos a negocios locales a conseguir más reseñas de 5 estrellas, sin fricción.",
+        "mostrar_social": true,
+        "nav_titulo": "Tienda",
+        "nav_link_1_label": "Producto",
+        "nav_link_1_url": "#producto",
+        "nav_link_2_label": "Cómo funciona",
+        "nav_link_2_url": "#como-funciona",
+        "nav_link_3_label": "Contacto",
+        "nav_link_3_url": "",
+        "legal_titulo": "Legal",
+        "legal_aviso_texto": "Aviso legal",
+        "legal_cookies_texto": "Política de cookies",
+        "sobre_titulo": "TapReview™",
+        "sobre_texto": "Placas NFC + QR para negocios que quieren crecer con reseñas reales.",
+        "derechos_texto": "Todos los derechos reservados.",
+        "mostrar_pagos": true,
+        "color_fondo": "#0a1420",
+        "color_texto": "#f5f8ff"
+      }
+    }
+  },
+  "order": [
+    "footer"
+  ]
+}

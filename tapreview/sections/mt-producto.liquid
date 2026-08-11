@@ -1,0 +1,200 @@
+{{ 'mt-styles.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  #shopify-section-{{ section.id }} {
+    padding-top: {{ section.settings.padding_top }}px;
+    padding-bottom: {{ section.settings.padding_bottom }}px;
+  }
+{% endstyle %}
+
+{%- assign p = product -%}
+
+<section class="mt-section mt-producto-seccion" data-mt-producto>
+  <div class="mt-container mt-producto-grid">
+
+    <div class="mt-producto-galeria" data-mt-galeria>
+      <div class="mt-galeria-principal">
+        {%- if p.featured_media -%}
+          <img data-mt-imagen-principal
+               src="{{ p.featured_media | image_url: width: 1200 }}"
+               srcset="{{ p.featured_media | image_url: width: 600 }} 600w, {{ p.featured_media | image_url: width: 1200 }} 1200w"
+               sizes="(max-width: 989px) 92vw, 560px"
+               alt="{{ p.featured_media.alt | default: p.title | escape }}"
+               width="{{ p.featured_media.width }}" height="{{ p.featured_media.height }}"
+               loading="eager" fetchpriority="high">
+        {%- else -%}
+          <img data-mt-imagen-principal src="{{ 'mt-hero-banner.jpg' | asset_url }}" alt="{{ p.title | escape }}">
+        {%- endif -%}
+      </div>
+      {%- if p.media.size > 1 -%}
+        <div class="mt-galeria-minis">
+          {%- for media in p.media -%}
+            <button type="button"
+                    class="mt-mini{% if forloop.first %} mt-mini-activa{% endif %}"
+                    data-mt-mini
+                    data-mt-src="{{ media | image_url: width: 1200 }}"
+                    data-mt-srcset="{{ media | image_url: width: 600 }} 600w, {{ media | image_url: width: 1200 }} 1200w"
+                    data-mt-alt="{{ media.alt | default: p.title | escape }}"
+                    aria-label="Ver foto {{ forloop.index }}">
+              <img src="{{ media | image_url: width: 200 }}" alt="" loading="lazy">
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="mt-producto-compra mt-reveal">
+      <span class="mt-eyebrow">{{ section.settings.eyebrow }}</span>
+      <h1 class="mt-producto-titulo">{{ p.title }}</h1>
+
+      <div class="mt-producto-precio">
+        <span data-mt-precio>{{ p.selected_or_first_available_variant.price | money }}</span>
+        <span data-mt-precio-compare class="mt-producto-precio-antes" {% unless p.selected_or_first_available_variant.compare_at_price > p.selected_or_first_available_variant.price %}style="display:none;"{% endunless %}>
+          {{ p.selected_or_first_available_variant.compare_at_price | money }}
+        </span>
+      </div>
+
+      {%- if section.settings.resumen != blank -%}
+        <p class="mt-producto-resumen">{{ section.settings.resumen }}</p>
+      {%- endif -%}
+
+      {% form 'product', p %}
+        <input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}" data-mt-input-id>
+
+        {%- unless p.has_only_default_variant -%}
+          {%- for option in p.options_with_values -%}
+            <div class="mt-opcion">
+              <label class="mt-opcion-label" for="mt-opcion-{{ forloop.index0 }}-{{ section.id }}">{{ option.name }}</label>
+              <select id="mt-opcion-{{ forloop.index0 }}-{{ section.id }}" class="mt-opcion-select" data-mt-opcion>
+                {%- for value in option.values -%}
+                  <option value="{{ value | escape }}" {% if option.selected_value == value %}selected{% endif %}>{{ value }}</option>
+                {%- endfor -%}
+              </select>
+            </div>
+          {%- endfor -%}
+          <script type="application/json" data-mt-variantes-json>
+            [
+              {%- for variant in p.variants -%}
+                {
+                  "id": {{ variant.id | json }},
+                  "price": {{ variant.price | json }},
+                  "compare_at_price": {{ variant.compare_at_price | json }},
+                  "available": {{ variant.available | json }},
+                  "options": {{ variant.options | json }}
+                }{% unless forloop.last %},{% endunless %}
+              {%- endfor -%}
+            ]
+          </script>
+        {%- endunless -%}
+
+        <button type="submit" name="add" class="mt-btn mt-btn-primario mt-producto-boton" data-mt-add
+                data-mt-texto-disponible="{{ section.settings.boton_texto | escape }}"
+                data-mt-texto-agotado="{{ section.settings.boton_agotado_texto | escape }}"
+                {% unless p.selected_or_first_available_variant.available %}disabled{% endunless %}>
+          <span data-mt-add-texto>
+            {%- if p.selected_or_first_available_variant.available -%}
+              {{ section.settings.boton_texto }}
+            {%- else -%}
+              {{ section.settings.boton_agotado_texto }}
+            {%- endif -%}
+          </span>
+        </button>
+      {% endform %}
+
+      <div class="mt-producto-confianza">
+        {%- for i in (1..3) -%}
+          {%- assign texto_key = 'confianza_' | append: i -%}
+          {%- assign texto = section.settings[texto_key] -%}
+          {%- if texto != blank -%}
+            <div class="mt-hero-confianza-item mt-producto-confianza-item">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>{{ texto }}</span>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </div>
+
+  {%- if section.settings.caracteristicas_titulo != blank -%}
+    <div class="mt-container mt-producto-caracteristicas">
+      <h2 class="mt-h3 mt-reveal">{{ section.settings.caracteristicas_titulo }}</h2>
+      <div class="mt-caract-grid">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'caracteristica' -%}
+            <div class="mt-caract-item mt-tarjeta mt-reveal" {{ block.shopify_attributes }}>
+              <h3 class="mt-caract-titulo">{{ block.settings.titulo }}</h3>
+              <p class="mt-caract-texto">{{ block.settings.texto }}</p>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- assign incluye_items = section.settings.incluye | newline_to_br | split: '<br />' -%}
+  {%- if section.settings.incluye != blank or p.description != blank -%}
+    <div class="mt-container mt-producto-detalle">
+      <div class="mt-producto-descripcion mt-reveal">
+        <h2 class="mt-h3">{{ section.settings.descripcion_titulo }}</h2>
+        <div class="mt-rte">{{ p.description }}</div>
+      </div>
+      {%- if section.settings.incluye != blank -%}
+        <div class="mt-producto-incluye mt-tarjeta mt-reveal">
+          <h3 class="mt-caract-titulo">{{ section.settings.incluye_titulo }}</h3>
+          <ul class="mt-incluye-lista">
+            {%- for item in incluye_items -%}
+              {%- if item != blank -%}<li>{{ item }}</li>{%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "MT – Página de producto",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto pequeño superior", "default": "TapReview™" },
+    { "type": "textarea", "id": "resumen", "label": "Resumen corto bajo el precio", "default": "Placa NFC + código QR para que tus clientes te dejen una reseña de 5 estrellas en segundos." },
+    { "type": "text", "id": "boton_texto", "label": "Texto del botón (disponible)", "default": "Añadir al carrito" },
+    { "type": "text", "id": "boton_agotado_texto", "label": "Texto del botón (agotado)", "default": "Agotado" },
+    { "type": "header", "content": "Confianza" },
+    { "type": "text", "id": "confianza_1", "label": "Punto 1", "default": "Envío 24-48h" },
+    { "type": "text", "id": "confianza_2", "label": "Punto 2", "default": "Devolución fácil 30 días" },
+    { "type": "text", "id": "confianza_3", "label": "Punto 3", "default": "Pago 100% seguro" },
+    { "type": "header", "content": "Características" },
+    { "type": "text", "id": "caracteristicas_titulo", "label": "Título del bloque (vacío para ocultar)", "default": "Por qué funciona" },
+    { "type": "header", "content": "Descripción" },
+    { "type": "text", "id": "descripcion_titulo", "label": "Título", "default": "Detalles del producto" },
+    { "type": "text", "id": "incluye_titulo", "label": "Título de \"qué incluye\"", "default": "Qué incluye" },
+    { "type": "textarea", "id": "incluye", "label": "Qué incluye (un ítem por línea)", "default": "1 placa NFC + QR de 12x12cm\nAdhesivo 3M de alta resistencia\nGuía rápida de configuración" },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "padding_top", "label": "Espacio superior (px)", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Espacio inferior (px)", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 40 }
+  ],
+  "blocks": [
+    {
+      "type": "caracteristica",
+      "name": "Característica",
+      "settings": [
+        { "type": "text", "id": "titulo", "label": "Título", "default": "Sin apps ni fricción" },
+        { "type": "textarea", "id": "texto", "label": "Texto", "default": "El cliente no descarga nada: solo acerca el celular o escanea el QR." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MT – Página de producto",
+      "blocks": [
+        { "type": "caracteristica", "settings": { "titulo": "Sin apps ni fricción", "texto": "El cliente no descarga nada: solo acerca el celular o escanea el QR." } },
+        { "type": "caracteristica", "settings": { "titulo": "Material resistente", "texto": "Placa rígida con adhesivo 3M de alta resistencia, pensada para uso diario en mostrador." } },
+        { "type": "caracteristica", "settings": { "titulo": "Configuración en 2 minutos", "texto": "Se programa una vez con el enlace de tu negocio y ya está lista para siempre." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

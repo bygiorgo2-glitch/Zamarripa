@@ -1,0 +1,60 @@
+{
+  "sections": {
+    "principal": {
+      "type": "mt-producto",
+      "settings": {
+        "eyebrow": "TapReview™",
+        "resumen": "Placa NFC + código QR para que tus clientes te dejen una reseña de 5 estrellas en segundos, sin apps ni fricción.",
+        "boton_texto": "Añadir al carrito",
+        "boton_agotado_texto": "Agotado",
+        "confianza_1": "Envío 24-48h",
+        "confianza_2": "Devolución fácil 30 días",
+        "confianza_3": "Pago 100% seguro",
+        "caracteristicas_titulo": "Por qué funciona",
+        "descripcion_titulo": "Detalles del producto",
+        "incluye_titulo": "Qué incluye",
+        "incluye": "1 placa NFC + QR de 12x12cm\nAdhesivo 3M de alta resistencia\nGuía rápida de configuración"
+      },
+      "blocks": {
+        "caract-1": { "type": "caracteristica", "settings": { "titulo": "Sin apps ni fricción", "texto": "El cliente no descarga nada: solo acerca el celular o escanea el QR." } },
+        "caract-2": { "type": "caracteristica", "settings": { "titulo": "Material resistente", "texto": "Placa rígida con adhesivo 3M de alta resistencia, pensada para uso diario en mostrador." } },
+        "caract-3": { "type": "caracteristica", "settings": { "titulo": "Configuración en 2 minutos", "texto": "Se programa una vez con el enlace de tu negocio y ya está lista para siempre." } }
+      },
+      "block_order": ["caract-1", "caract-2", "caract-3"]
+    },
+    "como-funciona": {
+      "type": "mt-como-funciona",
+      "settings": {
+        "eyebrow": "Así de simple",
+        "headline": "Tres pasos y listo",
+        "subheadline": "Sin apps que descargar, sin cuentas que crear. Funciona con cualquier celular.",
+        "padding_top": 88,
+        "padding_bottom": 88
+      },
+      "blocks": {
+        "paso-1": { "type": "paso", "settings": { "titulo": "Acerca el celular", "texto": "El cliente apoya su teléfono sobre la placa (NFC) o escanea el código QR si lo prefiere.", "imagen_respaldo": "mt-paso-1.jpg" } },
+        "paso-2": { "type": "paso", "settings": { "titulo": "Se abre la reseña al instante", "texto": "Sin buscar tu negocio ni escribir nada: la ventana de reseña aparece directa en su pantalla.", "imagen_respaldo": "mt-paso-2.jpg" } },
+        "paso-3": { "type": "paso", "settings": { "titulo": "Te deja sus 5 estrellas", "texto": "Escribe unas palabras y publica. Todo en menos de 10 segundos, sin fricción.", "imagen_respaldo": "mt-paso-3.jpg" } }
+      },
+      "block_order": ["paso-1", "paso-2", "paso-3"]
+    },
+    "resenas": {
+      "type": "mt-resenas",
+      "settings": {
+        "eyebrow": "Negocios reales",
+        "headline": "Lo que dicen quienes ya lo usan",
+        "color_fondo": "#f4f7fc",
+        "padding_top": 88,
+        "padding_bottom": 88
+      },
+      "blocks": {
+        "resena-1": { "type": "resena", "settings": { "nombre": "Ana Torres", "negocio": "Café Origen", "estrellas": 5, "texto": "Antes pedíamos reseñas y nadie las dejaba. Con la placa en la caja, ahora sumamos varias cada día sin pedirlo casi." } },
+        "resena-2": { "type": "resena", "settings": { "nombre": "Julián Reyes", "negocio": "Barbería Reyes", "estrellas": 5, "texto": "Se paga sola: en un mes subimos de 4.3 a 4.8 estrellas en Google y se nota en las reservas." } },
+        "resena-3": { "type": "resena", "settings": { "nombre": "Marcela Ibáñez", "negocio": "Clínica Dental Ibáñez", "estrellas": 5, "texto": "Los pacientes la usan sin que nadie les explique nada. Es literal apoyar el celular y listo." } },
+        "resena-4": { "type": "resena", "settings": { "nombre": "Diego Salas", "negocio": "Tienda Salas", "estrellas": 5, "texto": "La calidad del material es muy buena y llegó rápido. La puse junto a la caja registradora y ya funciona sola." } }
+      },
+      "block_order": ["resena-1", "resena-2", "resena-3", "resena-4"]
+    }
+  },
+  "order": ["principal", "como-funciona", "resenas"]
+}
