@@ -149,6 +149,17 @@ oficial del producto (gid://shopify/Product/8922706772056) vía `stagedUploadsCr
 Total: 17 fotos en la galería del producto. Verificado leyendo el producto de nuevo
 (todas con status UPLOADED y URL de cdn.shopify.com ya servible).
 
+**Actualización:** el usuario curó a mano la galería desde el panel (la dejó en 10
+fotos: 6 originales + mt-paso-1, mt-color-negro, mt-producto-limpio-blanco,
+mt-nfc-tools-setup) y pidió limpiar el "x1" de las variantes Facebook e Instagram.
+Se generaron `mt-facebook-limpio-blanco.jpg` y `mt-instagram-limpio-blanco.jpg`
+(mismo estilo que `mt-producto-limpio-blanco.jpg`: fondo blanco puro, sin overlay de
+catálogo) a partir de `fotos-producto/producto-7.jpg` y `producto-8.jpg`, se subieron
+a la galería, y se borraron con `productDeleteMedia` las dos fotos viejas con "x1"
+(MediaImage 37026827993176 y 37026828091480). Galería final: 10 fotos, ninguna con
+texto de catálogo superpuesto salvo las 4 originales que el usuario decidió conservar
+tal cual (Front/Back x1, comparador azul/negro, etc. — su elección, no se tocan).
+
 ## Pendiente / para el usuario
 - **Publicar en vivo**: el tema está en borrador, a la espera de que el usuario confirme el diseño desde
   la previsualización para publicarlo (`shopify theme publish`).
