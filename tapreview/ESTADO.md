@@ -123,6 +123,15 @@ Todas en `assets/`, mismo set de luz/mármol/fondo azul marino para que combinen
      `h3` directamente). Corregido con `color: inherit` explícito.
 - Probado funcionalmente con Playwright: cambio de variante actualiza precio/id, y "Añadir al carrito"
   agrega de verdad el producto correcto al carrito real de la tienda.
+- 4º bug encontrado y corregido: el título del hero se veía casi invisible (texto oscuro sobre fondo
+  oscuro). Causa: mi propia regla `.mt-section h1, .mt-section h2, .mt-section h3, .mt-eyebrow, .mt-h2,
+  .mt-h3 { color: inherit; }` (añadida para arreglar el bug del footer) tenía MÁS especificidad CSS que
+  `.mt-hero-titulo { color: #fff; }` (selector descendiente `.mt-section h2` vs una sola clase), así que
+  ganaba y el título heredaba el color oscuro global del body. Arreglado añadiendo la clase `mt-oscuro` a
+  la sección del hero (mismo patrón que ya usa `mt-cta-final`), para que el color claro se herede de un
+  ancestro más cercano. Ojo con este patrón si se añaden más títulos blancos sobre fondo oscuro en el
+  futuro: o llevan la clase `mt-oscuro` en su sección, o su regla de color necesita más especificidad que
+  `.mt-section h2`.
 - Push final limpio (sin errores) al tema de trabajo "TapReview (Claude)" — ID 153640992856.
 
 ## Pendiente / para el usuario
